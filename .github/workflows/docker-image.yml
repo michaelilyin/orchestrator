@@ -29,7 +29,7 @@ jobs:
       - build
     steps:
     - name: Docker Deployment
-      uses: michaelilyin/docker-deployment-action@e1eed10194321dcd287a0ca651267f8f40ee76a5
+      uses: michaelilyin/docker-deployment-action@master
       with:
         remote_docker_host: ${{ secrets.DOCKER_SSH_USER_AND_HOST }}
         remote_docker_port: ${{ secrets.DOCKER_SSH_PORT }}
