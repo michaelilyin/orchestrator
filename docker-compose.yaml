@@ -1,0 +1,19 @@
+version: "3.3"
+
+services:
+  orchestrator:
+    image: michaelilyin/orchestrator:latest
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.orchestrator.rule=Host(`example.com`)"
+      - "traefik.http.routers.orchestrator.entrypoints=websecure"
+      - "traefik.http.routers.orchestrator.tls=true"
+      - "traefik.http.routers.orchestrator.tls.certresolver=lets-encrypt"
+      - "traefik.http.services.orchestrator.loadbalancer.server.port=8080"
+    networks:
+      - web
+
+networks:
+  web:
+    external: true
