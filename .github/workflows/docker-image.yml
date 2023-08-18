@@ -24,6 +24,9 @@ jobs:
         tags: michaelilyin/orchestrator:latest
   deploy:
     runs-on: ubuntu-latest
+    environment: production
+    needs:
+      - build
     steps:
     - name: Docker Deployment
       uses: wshihadeh/docker-deployment-action@v2
