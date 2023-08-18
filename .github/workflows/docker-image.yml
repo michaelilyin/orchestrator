@@ -28,6 +28,7 @@ jobs:
     needs:
       - build
     steps:
+    - uses: actions/checkout@v3
     - name: Docker Deployment
       uses: michaelilyin/docker-deployment-action@master
       with:
