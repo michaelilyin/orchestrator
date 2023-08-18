@@ -28,38 +28,17 @@ jobs:
     needs:
       - build
     steps:
-    - name: SSH-Compose
-      # You may pin to the exact commit or the version.
-      # uses: matiasnu/github-action-ssh-docker-compose@d96d416e92298c7999a76f19c6154ad5c6bab933
-      uses: matiasnu/github-action-ssh-docker-compose@v2.0.2
+    - name: Docker Deployment
+      uses: michaelilyin/docker-deployment-action@e1eed10194321dcd287a0ca651267f8f40ee76a5
       with:
-        # Private SSH key used for logging into remote system.
+        remote_docker_host: ${{ secrets.DOCKER_SSH_USER }}@${{ secrets.DOCKER_SSH_HOST }}
+        remote_docker_port: ${{ secrets.DOCKER_SSH_PORT }}
         ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-        # Remote host name.
-        ssh_host: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
-        # Remote SSH port.
-        ssh_port: ${{ secrets.DOCKER_SSH_PORT }}
-        # Remote user name.
-        ssh_user: ${{ secrets.DOCKER_SSH_USER }}
-        # Prefix for docker-compose containers.
-        docker_compose_prefix: orch
-        # Docker compose file to use
-        docker_compose_filename: docker-compose.yaml
-        # Use docker stack instead of docker compose ("true" or "false").
-        use_stack: false
-        # Execute docker-compose-down ("true" or "false").
-        docker_compose_down: false
-    # - name: Docker Deployment
-    #   uses: wshihadeh/docker-deployment-action@v2
-    #   with:
-    #     remote_docker_host: ${{ secrets.DOCKER_SSH_HOST }}
-    #     remote_docker_port: ${{ secrets.DOCKER_SSH_PORT }}
-    #     ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-    #     ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
-    #     deployment_mode: docker-compose
-    #     stack_file_name: docker-compose.yaml
-    #     copy_stack_file: 'false'
-    #     args: up -d
-    #     pre_deployment_command_args: 'ls -al'
-    #     docker_prune: 'true'
-    #     pull_images_first: 'true'
+        ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
+        deployment_mode: docker-compose
+        stack_file_name: docker-compose.yaml
+        copy_stack_file: 'false'
+        args: up -d
+        pre_deployment_command_args: 'ls -al'
+        docker_prune: 'true'
+        pull_images_first: 'true'
