@@ -5,9 +5,12 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 )
 
 func main() {
+	go heartBeat()
+
 	http.HandleFunc("/", indexHandler)
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -18,6 +21,14 @@ func main() {
 	log.Printf("Listening on port %s", port)
 	log.Printf("Open http://localhost:%s in the browser", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
+}
+
+func heartBeat() {
+	for range time.Tick(time.Minute * 1) {
+		log.Printf("Checking network connectivity")
+
+		log.Printf("Check completed")
+	}
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {

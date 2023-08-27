@@ -2,11 +2,11 @@ version: "3.3"
 
 services:
   orchestrator:
-    image: michaelilyin/orchestrator:arm
+    image: michaelilyin/orchestrator:latest
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.orchestrator.rule=Host(`${STATUS}`)"
+      - "traefik.http.routers.orchestrator.rule=Host(`${HOST}`)"
       - "traefik.http.routers.orchestrator.entrypoints=websecure"
       - "traefik.http.routers.orchestrator.tls=true"
       - "traefik.http.routers.orchestrator.tls.certresolver=lets-encrypt"

@@ -32,7 +32,7 @@ jobs:
           GOOS=linux
           GOARCH=arm64
         push: true
-        tags: michaelilyin/orchestrator:arm
+        tags: michaelilyin/orchestrator:latest
   deploy:
     runs-on: ubuntu-latest
     environment: production
