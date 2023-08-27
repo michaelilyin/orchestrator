@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	probing "github.com/prometheus-community/pro-bing"
 	"log"
 	"net/http"
 	"os"
@@ -23,9 +24,29 @@ func main() {
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
 }
 
+func checkConnectivity(address string) {
+	pinger, err := probing.NewPinger(address)
+	if err != nil {
+		panic(err)
+	}
+	pinger.Count = 3
+	err = pinger.Run() // Blocks until finished.
+	if err != nil {
+		panic(err)
+	}
+	stats := pinger.Statistics() // get send/receive/duplicate/rtt stats
+	log.Printf("Stats for %s: sent=%d, recv=%d, loss=%f, rtt=%s",
+		address, stats.PacketsSent, stats.PacketsRecv, stats.PacketLoss, stats.AvgRtt)
+}
+
 func heartBeat() {
-	for range time.Tick(time.Minute * 1) {
+	for range time.Tick(time.Minute * 5) {
 		log.Printf("Checking network connectivity")
+
+		checkConnectivity("77.88.8.8")
+		checkConnectivity("8.8.8.8")
+		checkConnectivity("192.168.1.1")
+		checkConnectivity("192.168.1.64")
 
 		log.Printf("Check completed")
 	}
