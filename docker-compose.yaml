@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   orchestrator:
-    image: michaelilyin/orchestrator:latest
+    image: michaelilyin/orchestrator:arm
     restart: unless-stopped
     labels:
       - "traefik.enable=true"
