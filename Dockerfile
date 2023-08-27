@@ -7,7 +7,7 @@ ENV CGO_ENABLED 0
 ENV GOOS ${GOOS:-linux}
 ENV GOARCH ${GOARCH:-amd64}
 
-RUN apk update --no-cache && apk add --no-cache tzdata
+RUN apk update --no-cache && apk add --no-cache ca-certificates tzdata libcap
 
 WORKDIR /build
 
@@ -17,6 +17,7 @@ RUN go mod download
 
 COPY . .
 RUN go build -ldflags="-s -w" -o orchestrator orchestrator.go
+RUN setcap cap_net_raw=+ep orchestrator
 
 FROM scratch
 
