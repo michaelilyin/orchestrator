@@ -26,8 +26,9 @@ jobs:
       with:
         context: "."
         file: "Dockerfile"
-        build-args: |
-          BUILDPLATFORM=linux/arm64/v8
+        platforms: |-
+          linux/arm64/v8
+        build-args: |-
           GOOS=linux
           GOARCH=arm64
         push: true

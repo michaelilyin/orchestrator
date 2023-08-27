@@ -1,6 +1,5 @@
-FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:alpine as builder
+FROM golang:alpine as builder
 
-ARG BUILDPLATFORM
 ARG GOOS
 ARG GOARCH
 
@@ -19,7 +18,7 @@ RUN go mod download
 COPY . .
 RUN go build -ldflags="-s -w" -o orchestrator orchestrator.go
 
-FROM --platform=${BUILDPLATFORM:-linux/amd64} scratch
+FROM scratch
 
 WORKDIR /app
 
