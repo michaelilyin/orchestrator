@@ -31,7 +31,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Docker Deployment
-      uses: michaelilyin/docker-deployment-action@master
+      uses: wshihadeh/docker-deployment-action@v2
       with:
         remote_docker_host: ${{ secrets.DOCKER_SSH_USER_AND_HOST }}
         remote_docker_port: ${{ secrets.DOCKER_SSH_PORT }}
@@ -39,5 +39,8 @@ jobs:
         ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
         deployment_mode: docker-compose
         stack_file_name: docker-compose.yaml
-        copy_stack_file: 'false'
+        copy_stack_file: 'true'
+        deploy_path: '~/deploy'
+        pull_images_first: true
+        keep_files: 3
         args: up -d
