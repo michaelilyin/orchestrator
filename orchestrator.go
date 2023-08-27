@@ -27,12 +27,12 @@ func main() {
 func checkConnectivity(address string) {
 	pinger, err := probing.NewPinger(address)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	pinger.Count = 3
 	err = pinger.Run() // Blocks until finished.
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	stats := pinger.Statistics() // get send/receive/duplicate/rtt stats
 	log.Printf("Stats for %s: sent=%d, recv=%d, loss=%f, rtt=%s",
