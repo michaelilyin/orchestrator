@@ -1,9 +1,12 @@
 FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:alpine as builder
 
 ARG BUILDPLATFORM
+ARG GOOS
+ARG GOARCH
 
 ENV CGO_ENABLED 0
-ENV GOOS linux
+ENV GOOS ${GOOS:-linux}
+ENV GOARCH ${GOARCH:-amd64}
 
 RUN apk update --no-cache && apk add --no-cache tzdata
 
