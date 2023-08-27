@@ -4,6 +4,8 @@ services:
   orchestrator:
     image: michaelilyin/orchestrator:latest
     restart: unless-stopped
+    env_file:
+      - .env
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.orchestrator.rule=Host(`${HOST}`)"
