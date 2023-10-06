@@ -27,6 +27,8 @@ COPY --from=builder /usr/share/zoneinfo/Europe/Moscow /usr/share/zoneinfo/Europe
 ENV TZ Europe/Moscow
 
 COPY --from=builder /build/orchestrator /app/orchestrator
+COPY templates /app/templates
+COPY static /app/static
 
 EXPOSE 8080
 

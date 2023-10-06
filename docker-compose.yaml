@@ -13,6 +13,17 @@ services:
       - "traefik.http.routers.orchestrator.tls=true"
       - "traefik.http.routers.orchestrator.tls.certresolver=lets-encrypt"
       - "traefik.http.services.orchestrator.loadbalancer.server.port=8080"
+    volumes:
+      - /var/log/orchestrator:/var/log/orchestrator
+      - /opt/orchestrator/state:/app/state
+      - /opt/orchestrator/config:/app/config
+#      - /var/run/systemd:/var/run/systemd
+#      - /proc/sys/kernel/sysrq:/proc/sys/kernel/sysrq
+#      - /proc/sysrq-trigger:/proc/sysrq-trigger
+    privileged: true
+    cap_add:
+      - SYS_PTRACE
+      - SYS_BOOT
     networks:
       - web
 
