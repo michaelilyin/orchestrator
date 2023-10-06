@@ -217,9 +217,19 @@ func (m *Module) raiseRunStatusIfNeeded(groupName string) {
 
 func (m *Module) cleanupRunStatusIfNeeded(groupName string) {
 	delete(m.states, groupName)
+	writeState(&m.states)
 }
 
 func (m *Module) runRebootAction() {
+	err := m.logger.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	duration, err := time.ParseDuration("10s")
+	if err != nil {
+		panic(err)
+	}
+	time.Sleep(duration)
 	reboot.Reboot()
 }
 
