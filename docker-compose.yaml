@@ -15,7 +15,7 @@ services:
     volumes:
       - /opt/status-check/runtime:/runtime
     networks:
-      - web
+      - private
 
   orchestrator-web:
     image: michaelilyin/orchestrator-web:latest
@@ -29,6 +29,9 @@ services:
       - "traefik.http.routers.orchestrator.tls=true"
       - "traefik.http.routers.orchestrator.tls.certresolver=lets-encrypt"
       - "traefik.http.services.orchestrator.loadbalancer.server.port=4000"
+    networks:
+      - web
+      - private
 
 #  orchestrator:
 #    image: michaelilyin/orchestrator:latest
