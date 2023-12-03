@@ -1,0 +1,22 @@
+spring:
+  r2dbc:
+    url: r2dbc:h2:file://${RUNTIME_PATH}/h2
+  liquibase:
+    url: jdbc:h2:file:${RUNTIME_PATH}/h2
+    change-log: db/changelog/database-changelog.yml
+
+
+network-state:
+  check:
+    types:
+      local:
+        host: 192.168.1.1
+        timeout: PT1M
+
+  watchdog:
+    types:
+      local:
+        interval: PT5M
+        actions:
+          failed:
+            action: reboot

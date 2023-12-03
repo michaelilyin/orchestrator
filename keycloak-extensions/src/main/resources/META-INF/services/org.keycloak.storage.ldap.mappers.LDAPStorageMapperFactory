@@ -1,0 +1,5 @@
+online.ilyin.keycloak.ldap.mappers.RandomUidNumberLDAPStorageMapperFactory
+online.ilyin.keycloak.ldap.mappers.HashBasedUidNumberLDAPStorageMapperFactory
+online.ilyin.keycloak.ldap.mappers.ConstantInitialGidNumberLDAPStorageMapperFactory
+online.ilyin.keycloak.ldap.mappers.HomeDirectoryLDAPStorageMapperFactory
+
