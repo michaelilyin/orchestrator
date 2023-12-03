@@ -36,4 +36,8 @@ class NetworkStateService(
         val log = NetworkStateCheckLogEntity(networkType, Instant.now())
         networkCheckLogRepository.save(log).awaitSingle()
     }
+
+  suspend fun getAllStates(): List<NetworkStateEntity> {
+    return networkStateRepository.findAll().collectList().awaitSingle()
+  }
 }
