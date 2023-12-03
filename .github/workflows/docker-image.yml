@@ -68,7 +68,7 @@ jobs:
         platforms: |-
           linux/arm64/v8
         push: true
-        tags: michaelilyin/status-check:latest
+        tags: michaelilyin/orchestrator-web:latest
 
   deploy:
     runs-on: ubuntu-latest
