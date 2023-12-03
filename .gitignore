@@ -5,3 +5,6 @@
 /config
 
 runtime
+
+build
+.gradle
