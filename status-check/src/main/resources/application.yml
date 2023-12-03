@@ -5,6 +5,11 @@ spring:
     url: jdbc:h2:file:${RUNTIME_PATH}/h2
     change-log: db/changelog/database-changelog.yml
 
+management:
+  influx:
+    metrics:
+      export:
+        enabled: false
 
 network-state:
   check:

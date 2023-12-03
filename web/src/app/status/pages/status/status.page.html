@@ -1,0 +1,4 @@
+<h2>Network state</h2>
+<div *ngFor="let status of states$ | async">
+  {{status.type}} : {{status.status}}
+</div>
