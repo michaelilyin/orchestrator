@@ -78,6 +78,13 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Prepare docker-compose file
+      uses: falnyr/replace-env-vars-action@master
+      env:
+        HOST: ${{ secrets.HOST }}
+      with:
+        filename: docker-compose.yaml
+
     - name: Docker Deployment
       uses: wshihadeh/docker-deployment-action@v2
       with:
