@@ -38,7 +38,10 @@
             "prerender": true,
             "ssr": {
               "entry": "server.ts"
-            }
+            },
+            "allowedCommonJsDependencies": [
+              "express-http-proxy"
+            ]
           },
           "configurations": {
             "production": {

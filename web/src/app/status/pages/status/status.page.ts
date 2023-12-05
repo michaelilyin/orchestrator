@@ -1,14 +1,13 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {NetworkStateService} from "../../service/network-state.service";
-import {AsyncPipe, NgForOf} from "@angular/common";
+import {CommonModule} from "@angular/common";
 import {map} from "rxjs";
 
 @Component({
   selector: 'app-status',
   standalone: true,
   imports: [
-    AsyncPipe,
-    NgForOf
+    CommonModule
   ],
   templateUrl: './status.page.html',
   styleUrl: './status.page.scss',

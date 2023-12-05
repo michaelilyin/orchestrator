@@ -6,6 +6,6 @@ ENV TZ Europe/Moscow
 
 COPY ./dist/web .
 
-EXPOSE 8080
+EXPOSE 4000
 
 ENTRYPOINT ["node", "server/server.mjs"]
