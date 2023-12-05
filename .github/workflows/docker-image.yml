@@ -79,11 +79,12 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Prepare docker-compose file
-      uses: falnyr/replace-env-vars-action@master
+      uses: iamazeem/substitute-action@v1
       env:
         HOST: ${{ secrets.HOST }}
       with:
-        filename: docker-compose.yaml
+        input-files: |
+          docker-compose.yaml
 
     - name: Docker Deployment
       uses: wshihadeh/docker-deployment-action@v2
