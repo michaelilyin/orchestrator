@@ -1,24 +1,24 @@
 package online.ilyin.status.check.controller
 
-import online.ilyin.status.check.controller.model.NetworkStatusView
-import online.ilyin.status.check.controller.model.NetworkTypeStatusView
-import online.ilyin.status.check.service.NetworkStateService
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import online.ilyin.status.check.model.NetworkType
+import online.ilyin.status.check.use.case.NetworkStateViewUseCase
+import online.ilyin.status.check.use.case.model.NetworkStatusLogView
+import online.ilyin.status.check.use.case.model.NetworkStatusView
+import org.springframework.web.bind.annotation.*
+import java.time.Instant
 
 @RestController
-@RequestMapping("/api/network/status")
+@RequestMapping("/api/networks")
 class StatusCheckController(
-  private val networkStateService: NetworkStateService
+  private val networkStateViewUseCase: NetworkStateViewUseCase
 ) {
-  @GetMapping
-  suspend fun getNetworkStatus(): NetworkStatusView {
-    val states = networkStateService.getAllStates()
-    return NetworkStatusView(
-      networks = states.map {
-        NetworkTypeStatusView(it.type, it.status)
-      }
-    )
-  }
+  @GetMapping("/status")
+  suspend fun getNetworkStatus(): NetworkStatusView = networkStateViewUseCase.getAllNetworksState()
+
+  @GetMapping("{networkType}/log")
+  suspend fun getNetworkCheckLog(
+    @PathVariable networkType: NetworkType,
+    @RequestParam(required = true) before: Instant,
+    @RequestParam(required = true) max: Int
+  ): NetworkStatusLogView = networkStateViewUseCase.getNetworkStatusCheckLog(networkType, before, max)
 }

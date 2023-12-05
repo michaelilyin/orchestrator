@@ -1,4 +1,4 @@
-package online.ilyin.status.check.controller.model
+package online.ilyin.status.check.use.case.model
 
 import online.ilyin.status.check.model.NetworkStateStatus
 import online.ilyin.status.check.model.NetworkType

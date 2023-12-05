@@ -1,0 +1,18 @@
+<h2>Network state</h2>
+
+<mat-accordion>
+  <mat-expansion-panel hideToggle *ngFor="let status of states$ | async">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <ng-container [ngSwitch]="status.status">
+          <mat-icon *ngSwitchCase="'OK'" color="accent" class="space-right">check</mat-icon>
+          <mat-icon *ngSwitchCase="'FAILED'" color="warn" class="space-right">cancel</mat-icon>
+          <mat-icon *ngSwitchDefault color="warn" class="space-right">question_mark</mat-icon>
+        </ng-container>
+        <span>{{status.type}}</span>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <app-check-details *matExpansionPanelContent [type]="status.type"></app-check-details>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -33,7 +33,7 @@ class NetworkStateService(
 
         networkStateRepository.save(state).awaitSingle()
 
-        val log = NetworkStateCheckLogEntity(networkType, Instant.now())
+        val log = NetworkStateCheckLogEntity(networkType, Instant.now(), status)
         networkCheckLogRepository.save(log).awaitSingle()
     }
 

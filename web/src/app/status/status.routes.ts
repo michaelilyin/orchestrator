@@ -1,5 +1,5 @@
 import {Routes} from "@angular/router";
-import {StatusPage} from "./pages/status/status.page";
+import {StatusPage} from "./pages/status-page/status.page";
 
 export const STATUS_ROUTES: Routes = [
   {

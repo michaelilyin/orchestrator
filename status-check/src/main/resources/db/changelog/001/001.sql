@@ -16,3 +16,7 @@ CREATE TABLE IF NOT EXISTS network_state_check_log
     type VARCHAR NOT NULL REFERENCES network_state(type),
     created_at TIMESTAMP WITH TIME ZONE NOT NULL
 );
+
+--changeset michael:add-status-column-to-network-log context:main
+ALTER TABLE network_state_check_log
+  ADD COLUMN IF NOT EXISTS status VARCHAR;

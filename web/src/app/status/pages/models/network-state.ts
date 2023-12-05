@@ -18,3 +18,14 @@ export interface NetworkTypeStatusView {
 export interface NetworkStatusView {
   readonly networks: NetworkTypeStatusView[]
 }
+
+export interface NetworkStatusLogView {
+  readonly checks: NetworkStatusLogEntryView[]
+}
+
+export interface NetworkStatusLogEntryView {
+  readonly id: number,
+  readonly createdAt: string,
+  readonly status: NetworkStateStatus
+}
+
