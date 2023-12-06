@@ -28,7 +28,7 @@ export function app(): express.Express {
       if (queryString == null) {
         return `${req.baseUrl}${req.path}`;
       }
-      return `${req.baseUrl}${req.path}${queryString}`
+      return `${req.baseUrl}${req.path}?${queryString}`
     }
   }))
 
