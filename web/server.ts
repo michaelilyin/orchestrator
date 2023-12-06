@@ -23,7 +23,9 @@ export function app(): express.Express {
 
   server.use("/api/networks", proxy('http://status-check:8080', {
     proxyReqPathResolver: req => {
-      return `${req.baseUrl}${req.path}`
+      const parts = req.url.split('?');
+      const queryString = parts[1];
+      return `${req.baseUrl}${req.path}${queryString}`
     }
   }))
 
