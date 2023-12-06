@@ -25,6 +25,9 @@ export function app(): express.Express {
     proxyReqPathResolver: req => {
       const parts = req.url.split('?');
       const queryString = parts[1];
+      if (queryString == null) {
+        return `${req.baseUrl}${req.path}`;
+      }
       return `${req.baseUrl}${req.path}${queryString}`
     }
   }))
