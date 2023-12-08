@@ -11,4 +11,4 @@ COPY ./build/libs/*.jar /app/status-check.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/app/status-check.jar"]
+ENTRYPOINT ["nsenter", "-t", "1", "-m", "-u", "-n", "-i", "java", "-jar", "/app/status-check.jar"]

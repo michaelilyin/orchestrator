@@ -9,6 +9,7 @@ services:
     environment:
       RUNTIME_PATH: '//runtime'
     privileged: true
+    pid: host
     cap_add:
       - SYS_PTRACE
       - SYS_BOOT
