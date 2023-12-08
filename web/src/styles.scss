@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
+@use './app/sdk/logs/logs.component-theme' as logs;
 
 @include mat.core();
 
@@ -21,6 +22,8 @@ $my-theme: mat.define-light-theme((
 @include mat.all-component-densities($my-theme);
 @include mat.all-component-bases($my-theme);
 @include mat.all-component-themes($my-theme);
+
+@include logs.theme($my-theme);
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

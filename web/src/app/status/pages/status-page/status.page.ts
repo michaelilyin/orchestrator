@@ -4,7 +4,9 @@ import {CommonModule} from "@angular/common";
 import {map} from "rxjs";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatIconModule} from "@angular/material/icon";
-import {CheckDetailsComponent} from "../../check-details/check-details.component";
+import {CheckDetailsComponent} from "../../components/check-details/check-details.component";
+import {StatusIconComponent} from "../../components/status-icon/status-icon.component";
+import {MatCardModule} from "@angular/material/card";
 
 @Component({
   selector: 'app-status',
@@ -13,7 +15,9 @@ import {CheckDetailsComponent} from "../../check-details/check-details.component
     CommonModule,
     MatExpansionModule,
     MatIconModule,
-    CheckDetailsComponent
+    CheckDetailsComponent,
+    StatusIconComponent,
+    MatCardModule
   ],
   templateUrl: './status.page.html',
   styleUrl: './status.page.scss',

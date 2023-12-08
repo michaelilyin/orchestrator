@@ -1,5 +1,6 @@
 package online.ilyin.status.check.controller
 
+import online.ilyin.status.check.model.NetworkStateStatus
 import online.ilyin.status.check.model.NetworkType
 import online.ilyin.status.check.use.case.NetworkStateViewUseCase
 import online.ilyin.status.check.use.case.model.NetworkStatusLogView
@@ -19,6 +20,7 @@ class StatusCheckController(
   suspend fun getNetworkCheckLog(
     @PathVariable networkType: NetworkType,
     @RequestParam(required = true) before: Instant,
-    @RequestParam(required = true) max: Int
-  ): NetworkStatusLogView = networkStateViewUseCase.getNetworkStatusCheckLog(networkType, before, max)
+    @RequestParam(required = true) max: Int,
+    @RequestParam(required = false) status: NetworkStateStatus?
+  ): NetworkStatusLogView = networkStateViewUseCase.getNetworkStatusCheckLog(networkType, status, before, max)
 }

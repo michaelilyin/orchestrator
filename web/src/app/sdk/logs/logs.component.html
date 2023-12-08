@@ -1,0 +1,12 @@
+<div *ngFor="let entry of entries" class="container">
+  <div class="line"
+       [class.focused]="focused === entry"
+       (click)="focus(entry)">
+    <span class="date">{{entry.timestamp | date}}</span>
+    <span class="time">{{entry.timestamp | date:'shortTime'}}</span>
+
+    <span class="level {{entry.level}}">[{{entry.level}}]</span>
+
+    <span>{{entry.message}}</span>
+  </div>
+</div>

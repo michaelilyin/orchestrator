@@ -1,0 +1,14 @@
+<ng-container *ngIf="log$ | async as log">
+  <!--  <mat-list>-->
+  <!--    <mat-list-item *ngFor="let entry of log.checks">-->
+  <!--      <mat-icon matListItemIcon> home</mat-icon>-->
+  <!--      &lt;!&ndash;      <app-status-icon matListItemIcon [status]="entry.status"/>&ndash;&gt;-->
+  <!--      <h3 matListItemTitle>{{entry.createdAt | date:'medium'}}</h3>-->
+  <!--      <h3 matListItemLine>{{entry.createdAt | date:'medium'}}</h3>-->
+  <!--    </mat-list-item>-->
+  <!--  </mat-list>-->
+</ng-container>
+
+<app-logs *ngIf="entries$ | async as entries" [entries]="entries">
+
+</app-logs>
