@@ -7,14 +7,15 @@ services:
     env_file:
       - .env
     environment:
-      RUNTIME_PATH: '//runtime'
+#      RUNTIME_PATH: '//runtime'
+      RUNTIME_PATH: '//opt/status-check/runtime'
     privileged: true
     pid: host
     cap_add:
       - SYS_PTRACE
       - SYS_BOOT
-    volumes:
-      - /opt/status-check/runtime:/runtime
+#    volumes:
+#      - /opt/status-check/runtime:/runtime
     networks:
       - private
 
