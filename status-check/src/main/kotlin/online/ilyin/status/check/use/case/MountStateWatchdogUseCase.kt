@@ -43,8 +43,9 @@ class MountStateWatchdogUseCase(
           it.contains("/video") || it.contains("/music")
         }.toList()
 
-      log.info("Mounts $mounts")
+      log.info("Mounts $mounts, size=${mounts.size}")
       if (mounts.size < 2) {
+        log.info("Try to mount")
         val mountProcess = ProcessBuilder("nsenter", "-t", "1", "-m", "mount", "-a")
           .redirectOutput(ProcessBuilder.Redirect.INHERIT)
           .redirectError(ProcessBuilder.Redirect.INHERIT)
