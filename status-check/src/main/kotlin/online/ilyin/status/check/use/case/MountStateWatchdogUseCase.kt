@@ -6,6 +6,7 @@ import online.ilyin.status.check.support.logging.error
 import online.ilyin.status.check.support.logging.info
 import online.ilyin.status.check.support.logging.logger
 import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.ApplicationListener
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.stereotype.Component
@@ -13,6 +14,11 @@ import java.time.Duration
 import java.time.Instant
 
 private val log = logger { }
+
+//@ConfigurationProperties()
+//data class MountsCheckProperties(
+//
+//)
 
 @Component
 class MountStateWatchdogUseCase(
@@ -38,6 +44,14 @@ class MountStateWatchdogUseCase(
         }.toList()
 
       log.info("Mounts $mounts")
+      if (mounts.size < 2) {
+        val mountProcess = ProcessBuilder("nsenter", "-t", "1", "-m", "mount", "-a")
+          .redirectOutput(ProcessBuilder.Redirect.INHERIT)
+          .redirectError(ProcessBuilder.Redirect.INHERIT)
+          .start()
+
+        mountProcess.waitFor()
+      }
 
       runBlocking {
       }

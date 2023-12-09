@@ -22,7 +22,6 @@ network-state:
       local:
         host: 192.168.1.1
         timeout: PT1M
-
   watchdog:
     types:
       local:
