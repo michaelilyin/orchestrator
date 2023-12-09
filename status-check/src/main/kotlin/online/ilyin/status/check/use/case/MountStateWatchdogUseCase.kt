@@ -35,7 +35,7 @@ class MountStateWatchdogUseCase(
       val mounts = process.inputStream.bufferedReader().lines()
         .filter {
           it.contains("/video") || it.contains("/music")
-        }
+        }.toList()
 
       log.info("Mounts $mounts")
 
