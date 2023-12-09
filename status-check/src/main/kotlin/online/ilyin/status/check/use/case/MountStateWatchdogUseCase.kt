@@ -26,11 +26,18 @@ class MountStateWatchdogUseCase(
     log.info { "Start mounts state check" }
     try {
       val process = ProcessBuilder("nsenter", "-t", "1", "-m", "mount")
-        .redirectOutput(ProcessBuilder.Redirect.INHERIT)
-        .redirectError(ProcessBuilder.Redirect.INHERIT)
+        .redirectOutput(ProcessBuilder.Redirect.PIPE)
+        .redirectError(ProcessBuilder.Redirect.PIPE)
         .start()
 
       process.waitFor()
+
+      val mounts = process.inputStream.bufferedReader().lines()
+        .filter {
+          it.contains("/video") || it.contains("/music")
+        }
+
+      log.info("Mounts $mounts")
 
       runBlocking {
       }
