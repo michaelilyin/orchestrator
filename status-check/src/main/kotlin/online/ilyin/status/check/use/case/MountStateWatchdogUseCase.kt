@@ -25,7 +25,7 @@ class MountStateWatchdogUseCase(
   private fun checkMounts() {
     log.info { "Start mounts state check" }
     try {
-      val process = ProcessBuilder("java", "-version")
+      val process = ProcessBuilder("nsenter", "-t", "1", "-m", "mount")
         .redirectOutput(ProcessBuilder.Redirect.INHERIT)
         .redirectError(ProcessBuilder.Redirect.INHERIT)
         .start()
