@@ -1,12 +1,13 @@
 <h2>Network state</h2>
-
-<mat-card *ngFor="let status of states$ | async" class="example-card" >
-  <mat-card-header>
-    <app-status-icon mat-card-avatar [status]="status.status"/>
-    <mat-card-title>{{status.type}}</mat-card-title>
-  </mat-card-header>
-<!--  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
-  <mat-card-content>
-    <app-check-details [type]="status.type"/>
-  </mat-card-content>
-</mat-card>
+@for (status of states$ | async; track status.type) {
+  <mat-card class="example-card" >
+    <mat-card-header>
+      <app-status-icon mat-card-avatar [status]="status.status"/>
+      <mat-card-title>{{status.type}}</mat-card-title>
+    </mat-card-header>
+    <!--  <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">-->
+    <mat-card-content>
+      <app-check-details [type]="status.type"/>
+    </mat-card-content>
+  </mat-card>
+}

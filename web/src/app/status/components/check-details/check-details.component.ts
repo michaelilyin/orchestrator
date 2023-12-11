@@ -7,7 +7,7 @@ import {
 } from "../../models/network-state";
 import {EMPTY, map, Observable, shareReplay} from "rxjs";
 import {NetworkStateService} from "../../service/network-state.service";
-import {AsyncPipe, DatePipe, NgForOf, NgIf} from "@angular/common";
+import { AsyncPipe, DatePipe } from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {StatusIconComponent} from "../status-icon/status-icon.component";
 import {MatIconModule} from "@angular/material/icon";
@@ -18,15 +18,13 @@ import {Level, LogEntry} from "../../../sdk/logs/logs.model";
   selector: 'app-check-details',
   standalone: true,
   imports: [
-    NgIf,
     AsyncPipe,
-    NgForOf,
     MatListModule,
     DatePipe,
     StatusIconComponent,
     MatIconModule,
     LogsComponent
-  ],
+],
   templateUrl: './check-details.component.html',
   styleUrl: './check-details.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

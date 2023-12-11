@@ -1,5 +1,13 @@
-<ng-container *ngIf="status" [ngSwitch]="status">
-  <mat-icon *ngSwitchCase="'OK'" color="accent" class="space-right">check</mat-icon>
-  <mat-icon *ngSwitchCase="'FAILED'" color="warn" class="space-right">cancel</mat-icon>
-  <mat-icon *ngSwitchDefault color="warn" class="space-right">question_mark</mat-icon>
-</ng-container>
+@if (status) {
+  @switch (status) {
+    @case ('OK') {
+      <mat-icon color="accent" class="space-right">check</mat-icon>
+    }
+    @case ('FAILED') {
+      <mat-icon color="warn" class="space-right">cancel</mat-icon>
+    }
+    @default {
+      <mat-icon color="warn" class="space-right">question_mark</mat-icon>
+    }
+  }
+}
