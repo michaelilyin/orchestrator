@@ -25,7 +25,7 @@ class MountStateWatchdogUseCase(
   private val executor: TaskScheduler,
 ) : ApplicationListener<ApplicationReadyEvent> {
   override fun onApplicationEvent(event: ApplicationReadyEvent) {
-    checkMounts()
+//    checkMounts()
   }
 
   private fun checkMounts() {
