@@ -11,7 +11,6 @@ import java.time.Instant
 
 interface NetworkCheckLogRepository : ReactiveCrudRepository<NetworkStateCheckLogEntity, Long>,
   ReactiveSortingRepository<NetworkStateCheckLogEntity, Long> {
-
   @Query(
     """
          select *
