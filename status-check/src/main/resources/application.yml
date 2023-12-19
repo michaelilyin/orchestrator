@@ -16,16 +16,18 @@ management:
       export:
         enabled: false
 
-network-state:
-  check:
-    types:
-      local:
-        host: 192.168.1.1
-        timeout: PT1M
+
+check-state:
   watchdog:
     types:
-      local:
+      network-local:
         interval: PT5M
         actions:
           failed:
             action: reboot
+network-state:
+  check:
+    types:
+      network-local:
+        host: 192.168.1.1
+        timeout: PT1M

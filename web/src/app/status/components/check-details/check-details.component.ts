@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {
-  NetworkStateStatus,
-  NetworkStatusLogEntryView,
-  NetworkStatusLogView,
+  CheckStatus,
+  CheckLogRecordView,
+  CheckLogView,
   NetworkType
 } from "../../models/network-state";
 import {
@@ -16,7 +16,7 @@ import {
   shareReplay,
   switchMap
 } from "rxjs";
-import {NetworkStateService} from "../../service/network-state.service";
+import {CheckStateService} from "../../service/check-state.service";
 import {AsyncPipe, DatePipe} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {StatusIconComponent} from "../status-icon/status-icon.component";
@@ -26,30 +26,32 @@ import {Level, LogEntry} from "../../../sdk/logs/logs.model";
 import {TypedChanges} from "../../../sdk/angular/changes";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
-function convertBucketToLogEntries(log: NetworkStatusLogView) {
-  return log.checks.map(check => {
+function convertBucketToLogEntries(log: CheckLogView): LogEntry[] {
+  return log.records.map(check => {
     return {
+      id: check.id,
       timestamp: check.createdAt,
       message: extractMessage(check),
-      level: extractLevel(check)
+      level: extractLevel(check),
+      expandable: check.hasDetails
     }
   });
 }
 
-function extractMessage(check: NetworkStatusLogEntryView): string {
+function extractMessage(check: CheckLogRecordView): string {
   switch (check.status) {
-    case NetworkStateStatus.OK:
+    case CheckStatus.OK:
       return 'Check has successfully completed';
-    case NetworkStateStatus.FAILED:
+    case CheckStatus.FAILED:
       return 'Check has failed';
   }
 }
 
-function extractLevel(check: NetworkStatusLogEntryView): Level {
+function extractLevel(check: CheckLogRecordView): Level {
   switch (check.status) {
-    case NetworkStateStatus.OK:
+    case CheckStatus.OK:
       return Level.INFO;
-    case NetworkStateStatus.FAILED:
+    case CheckStatus.FAILED:
       return Level.ERROR;
   }
 }
@@ -75,7 +77,7 @@ export class CheckDetailsComponent implements OnChanges {
 
   private readonly type$ = new BehaviorSubject<NetworkType | null>(null)
 
-  readonly status$ = new BehaviorSubject<NetworkStateStatus | null>(null)
+  readonly status$ = new BehaviorSubject<CheckStatus | null>(null)
 
   readonly log$ = combineLatest([
     this.type$.pipe(distinctUntilChanged()),
@@ -96,12 +98,16 @@ export class CheckDetailsComponent implements OnChanges {
     shareReplay(1)
   )
 
-  constructor(private readonly networkStateService: NetworkStateService) {
+  constructor(private readonly networkStateService: CheckStateService) {
   }
 
   ngOnChanges(changes: TypedChanges<this>): void {
     if (changes.type?.currentValue != null) {
       this.type$.next(changes.type.currentValue)
     }
+  }
+
+  expand(entry: LogEntry) {
+    this.networkStateService.getCheckDetails(entry.id).subscribe()
   }
 }

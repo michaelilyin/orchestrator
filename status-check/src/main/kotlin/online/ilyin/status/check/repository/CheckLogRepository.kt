@@ -1,20 +1,20 @@
 package online.ilyin.status.check.repository
 
-import online.ilyin.status.check.entity.NetworkStateCheckLogEntity
-import online.ilyin.status.check.model.NetworkStateStatus
-import online.ilyin.status.check.model.NetworkType
+import online.ilyin.status.check.entity.CheckLog
+import online.ilyin.status.check.model.CheckStatus
+import online.ilyin.status.check.model.CheckType
 import org.springframework.data.r2dbc.repository.Query
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.data.repository.reactive.ReactiveSortingRepository
 import reactor.core.publisher.Flux
 import java.time.Instant
 
-interface NetworkCheckLogRepository : ReactiveCrudRepository<NetworkStateCheckLogEntity, Long>,
-  ReactiveSortingRepository<NetworkStateCheckLogEntity, Long> {
+interface CheckLogRepository : ReactiveCrudRepository<CheckLog, Long>,
+  ReactiveSortingRepository<CheckLog, Long> {
   @Query(
     """
          select *
-         from network_state_check_log
+         from check_log
          where type = :networkType
             and (:status is null or :status = status)
             and created_at < :since
@@ -23,9 +23,9 @@ interface NetworkCheckLogRepository : ReactiveCrudRepository<NetworkStateCheckLo
        """
   )
   fun selectAllByType(
-    networkType: NetworkType,
-    status: NetworkStateStatus?,
+    checkType: CheckType,
+    status: CheckStatus?,
     since: Instant,
     max: Int
-  ): Flux<NetworkStateCheckLogEntity>
+  ): Flux<CheckLog>
 }

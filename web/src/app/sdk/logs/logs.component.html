@@ -1,12 +1,18 @@
-@for (entry of entries; track entry.timestamp) {
+@for (entry of entries;track entry.timestamp) {
   <div class="container">
     <div class="line"
-      [class.focused]="focused === entry"
-      (click)="focus(entry)">
-      <span class="date">{{entry.timestamp | date}}</span>
-      <span class="time">{{entry.timestamp | date:'shortTime'}}</span>
-      <span class="level {{entry.level}}">[{{entry.level}}]</span>
-      <span>{{entry.message}}</span>
+         [class.expand-padding]="!entry.expandable"
+         [class.focused]="focused === entry"
+         (click)="focus(entry)">
+      @if (entry.expandable) {
+        <button mat-icon-button (click)="expand.emit(entry)">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      }
+      <span class="date">{{ entry.timestamp | date }}</span>
+      <span class="time">{{ entry.timestamp | date:'shortTime' }}</span>
+      <span class="level {{entry.level}}">[{{ entry.level }}]</span>
+      <span>{{ entry.message }}</span>
     </div>
   </div>
 }

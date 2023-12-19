@@ -1,5 +1,11 @@
 .line {
   font-family: 'Roboto Mono', monospace;
+  display: flex;
+  align-items: center;
+
+  &.expand-padding {
+    padding-left: 48px;
+  }
 }
 
 .date,.time,.level {

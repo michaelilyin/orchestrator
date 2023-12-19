@@ -21,7 +21,7 @@ export function app(): express.Express {
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
 
-  server.use("/api/networks", proxy('http://status-check:8080', {
+  server.use("/api/checks", proxy('http://status-check:8080', {
     proxyReqPathResolver: req => {
       const parts = req.url.split('?');
       const queryString = parts[1];

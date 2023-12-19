@@ -1,6 +1,6 @@
 package online.ilyin.status.check.model
 
-enum class NetworkStateStatus {
+enum class CheckStatus {
     OK,
     FAILED
 }

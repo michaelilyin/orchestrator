@@ -28,7 +28,7 @@ dependencies {
     implementation("org.springframework:spring-jdbc")
 
     runtimeOnly("io.micrometer:micrometer-registry-influx")
-    runtimeOnly("io.r2dbc:r2dbc-h2")
+    implementation("io.r2dbc:r2dbc-h2")
 
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 

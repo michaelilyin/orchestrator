@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
-import {NetworkStateService} from "../../service/network-state.service";
+import {CheckStateService} from "../../service/check-state.service";
 import {CommonModule} from "@angular/common";
 import {map} from "rxjs";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -25,9 +25,9 @@ import {MatCardModule} from "@angular/material/card";
 })
 export class StatusPage {
   public states$ = this.networkStateService.getNetworkState().pipe(
-    map(state => state.networks)
+    map(state => state.checks)
   )
 
-  constructor(private readonly networkStateService: NetworkStateService) {
+  constructor(private readonly networkStateService: CheckStateService) {
   }
 }

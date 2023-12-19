@@ -4,28 +4,38 @@ export enum NetworkType {
   GLOBAL = 'GLOBAL',
 }
 
-export enum NetworkStateStatus {
+export enum CheckStatus {
   OK = 'OK',
   FAILED = 'FAILED',
 }
 
-export interface NetworkTypeStatusView {
+export interface CheckStatusView {
   readonly type: NetworkType
-  readonly status: NetworkStateStatus
+  readonly status: CheckStatus
 }
 
 
-export interface NetworkStatusView {
-  readonly networks: NetworkTypeStatusView[]
+export interface ChecksStatusView {
+  readonly checks: CheckStatusView[]
 }
 
-export interface NetworkStatusLogView {
-  readonly checks: NetworkStatusLogEntryView[]
+export interface CheckLogView {
+  readonly records: CheckLogRecordView[]
 }
 
-export interface NetworkStatusLogEntryView {
+export interface CheckLogRecordView {
   readonly id: number,
   readonly createdAt: string,
-  readonly status: NetworkStateStatus
+  readonly status: CheckStatus
+  readonly hasDetails: boolean
 }
 
+export interface CheckLogData {
+
+}
+
+
+export interface NetworkPingData extends CheckLogData {
+  readonly host: string
+  readonly duration: string
+}

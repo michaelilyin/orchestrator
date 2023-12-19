@@ -2,11 +2,11 @@ package online.ilyin.status.check.use.case
 
 import kotlinx.coroutines.runBlocking
 import online.ilyin.status.check.model.NetworkStatusChangeAction
-import online.ilyin.status.check.model.NetworkStateStatus
-import online.ilyin.status.check.model.NetworkType
+import online.ilyin.status.check.model.CheckStatus
+import online.ilyin.status.check.model.CheckType
 import online.ilyin.status.check.service.ActionsRunner
-import online.ilyin.status.check.service.NetworkStateChecker
-import online.ilyin.status.check.service.NetworkStateService
+import online.ilyin.status.check.service.StateChecker
+import online.ilyin.status.check.service.CheckStateService
 import online.ilyin.status.check.support.logging.error
 import online.ilyin.status.check.support.logging.info
 import online.ilyin.status.check.support.logging.logger
@@ -21,15 +21,15 @@ import java.time.Instant
 
 private val log = logger { }
 
-@ConfigurationProperties("network-state.watchdog")
-data class NetworkStateWatchdogProperties(
+@ConfigurationProperties("check-state.watchdog")
+data class ChecksWatchdogProperties(
     @NestedConfigurationProperty
-    val types: Map<NetworkType, NetworkWatchdogProperties>
+    val types: Map<CheckType, CheckWatchdogProperties>
 )
 
-data class NetworkWatchdogProperties(
+data class CheckWatchdogProperties(
     val interval: Duration,
-    val actions: Map<NetworkStateStatus, StatusChangeAction>
+    val actions: Map<CheckStatus, StatusChangeAction>
 )
 
 data class StatusChangeAction(
@@ -37,34 +37,34 @@ data class StatusChangeAction(
 )
 
 @Component
-class NetworkStateWatchdogUseCase(
-    private val executor: TaskScheduler,
-    private val networkStateChecker: NetworkStateChecker,
-    private val properties: NetworkStateWatchdogProperties,
-    private val networkStateService: NetworkStateService,
-    private val actionsRunner: ActionsRunner
+class StateWatchdogUseCase(
+  private val executor: TaskScheduler,
+  private val stateChecker: StateChecker,
+  private val properties: ChecksWatchdogProperties,
+  private val checkStateService: CheckStateService,
+  private val actionsRunner: ActionsRunner
 ) : ApplicationListener<ApplicationReadyEvent> {
     override fun onApplicationEvent(event: ApplicationReadyEvent) {
-        checkNetworkState(NetworkType.LOCAL)
+        checkNetworkState(CheckType.NETWORK_LOCAL)
     }
 
-    private fun checkNetworkState(type: NetworkType) {
+    private fun checkNetworkState(type: CheckType) {
         log.info { "Start network state check for $type" }
         try {
             val properties = this.properties.types[type]
                 ?: throw IllegalStateException("Network $type does not have watchdog properties!")
 
             runBlocking {
-                val previous = networkStateService.getStoredStatus(type)
+                val previous = checkStateService.getStoredStatus(type)
                 log.info { "Previous status of $type was $previous" }
 
-                val status = networkStateChecker.checkNetworkState(type)
+                val result = stateChecker.checkNetworkState(type)
 
-                networkStateService.saveCheckResult(type, status)
+                checkStateService.saveCheckResult(type, result)
 
-                if (previous != status) {
-                    log.info { "Status of $type has changed from $previous to $status" }
-                    val action = properties.actions[status]
+                if (previous != result.status) {
+                    log.info { "Status of $type has changed from $previous to ${result.status}" }
+                    val action = properties.actions[result.status]
                     if (action != null) {
                         actionsRunner.runAction(action.action)
                     }

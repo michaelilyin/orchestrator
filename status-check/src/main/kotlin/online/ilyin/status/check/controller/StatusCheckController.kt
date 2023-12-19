@@ -1,26 +1,32 @@
 package online.ilyin.status.check.controller
 
-import online.ilyin.status.check.model.NetworkStateStatus
-import online.ilyin.status.check.model.NetworkType
-import online.ilyin.status.check.use.case.NetworkStateViewUseCase
-import online.ilyin.status.check.use.case.model.NetworkStatusLogView
-import online.ilyin.status.check.use.case.model.NetworkStatusView
+import online.ilyin.status.check.entity.CheckLogData
+import online.ilyin.status.check.model.CheckStatus
+import online.ilyin.status.check.model.CheckType
+import online.ilyin.status.check.use.case.CheckStateViewUseCase
+import online.ilyin.status.check.use.case.model.CheckLogView
+import online.ilyin.status.check.use.case.model.ChecksStatusView
 import org.springframework.web.bind.annotation.*
 import java.time.Instant
 
 @RestController
-@RequestMapping("/api/networks")
+@RequestMapping("/api/checks")
 class StatusCheckController(
-  private val networkStateViewUseCase: NetworkStateViewUseCase
+  private val checkStateViewUseCase: CheckStateViewUseCase
 ) {
   @GetMapping("/status")
-  suspend fun getNetworkStatus(): NetworkStatusView = networkStateViewUseCase.getAllNetworksState()
+  suspend fun getNetworkStatus(): ChecksStatusView = checkStateViewUseCase.getAllChecksState()
 
-  @GetMapping("{networkType}/log")
-  suspend fun getNetworkCheckLog(
-    @PathVariable networkType: NetworkType,
+  @GetMapping("{checkType}/log")
+  suspend fun getCheckLog(
+    @PathVariable checkType: CheckType,
     @RequestParam(required = true) before: Instant,
     @RequestParam(required = true) max: Int,
-    @RequestParam(required = false) status: NetworkStateStatus?
-  ): NetworkStatusLogView = networkStateViewUseCase.getNetworkStatusCheckLog(networkType, status, before, max)
+    @RequestParam(required = false) status: CheckStatus?
+  ): CheckLogView = checkStateViewUseCase.getCheckLog(checkType, status, before, max)
+
+  @GetMapping("/log/{logId}/details")
+  suspend fun getCheckLogDetails(
+    @PathVariable logId: Long
+  ): CheckLogData? = checkStateViewUseCase.getCheckLogDetails(logId)
 }

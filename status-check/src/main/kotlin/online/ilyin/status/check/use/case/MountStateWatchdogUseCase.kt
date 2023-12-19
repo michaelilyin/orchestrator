@@ -1,12 +1,10 @@
 package online.ilyin.status.check.use.case
 
 import kotlinx.coroutines.runBlocking
-import online.ilyin.status.check.model.NetworkType
 import online.ilyin.status.check.support.logging.error
 import online.ilyin.status.check.support.logging.info
 import online.ilyin.status.check.support.logging.logger
 import org.springframework.boot.context.event.ApplicationReadyEvent
-import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.ApplicationListener
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.stereotype.Component

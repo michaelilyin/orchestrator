@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {MatIconModule} from "@angular/material/icon";
 
-import {NetworkStateStatus} from "../../models/network-state";
+import {CheckStatus} from "../../models/network-state";
 
 @Component({
   selector: 'app-status-icon',
@@ -14,5 +14,5 @@ import {NetworkStateStatus} from "../../models/network-state";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatusIconComponent {
-  @Input() status?: NetworkStateStatus
+  @Input() status?: CheckStatus
 }

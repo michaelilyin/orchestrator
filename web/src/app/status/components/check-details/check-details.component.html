@@ -13,6 +13,7 @@
   <mat-button-toggle value="FAILED">FAILED</mat-button-toggle>
   <mat-button-toggle [value]="null">ALL</mat-button-toggle>
 </mat-button-toggle-group>
+
 @if (entries$ | async; as entries) {
-  <app-logs [entries]="entries"/>
+  <app-logs [entries]="entries" (expand)="expand($event)"/>
 }
