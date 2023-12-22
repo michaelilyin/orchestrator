@@ -28,6 +28,6 @@ export class CheckStateService {
   }
 
   getCheckDetails(logId: number): Observable<CheckLogData> {
-    return this.http.get<CheckLogView>(`/api/checks/log/${logId}/details`)
+    return this.http.get<CheckLogData>(`/api/checks/log/${logId}/details`)
   }
 }

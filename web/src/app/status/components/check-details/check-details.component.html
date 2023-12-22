@@ -1,12 +1,12 @@
-@if (log$ | async; as log) {
+@if (log$ | async;as log) {
   <!--  <mat-list>-->
   <!--    <mat-list-item *ngFor="let entry of log.checks">-->
   <!--      <mat-icon matListItemIcon> home</mat-icon>-->
   <!--      &lt;!&ndash;      <app-status-icon matListItemIcon [status]="entry.status"/>&ndash;&gt;-->
   <!--      <h3 matListItemTitle>{{entry.createdAt | date:'medium'}}</h3>-->
   <!--      <h3 matListItemLine>{{entry.createdAt | date:'medium'}}</h3>-->
-<!--    </mat-list-item>-->
-<!--  </mat-list>-->
+  <!--    </mat-list-item>-->
+  <!--  </mat-list>-->
 }
 <mat-button-toggle-group (change)="status$.next($event.value)" aria-label="Level Mode">
   <mat-button-toggle value="OK">OK</mat-button-toggle>
@@ -14,6 +14,14 @@
   <mat-button-toggle [value]="null">ALL</mat-button-toggle>
 </mat-button-toggle-group>
 
-@if (entries$ | async; as entries) {
-  <app-logs [entries]="entries" (expand)="expand($event)"/>
+@if (entries$ | async;as entries) {
+  @if (detailsMap$ | async;as details) {
+    <app-logs [entries]="entries" [details]="details" (expand)="expand($event)">
+      <ng-template appLineExpandableContent let-data>
+        <app-log-line>
+          {{ data | json }}
+        </app-log-line>
+      </ng-template>
+    </app-logs>
+  }
 }

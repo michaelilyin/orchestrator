@@ -1,18 +1,18 @@
-@for (entry of entries;track entry.timestamp) {
-  <div class="container">
-    <div class="line"
-         [class.expand-padding]="!entry.expandable"
-         [class.focused]="focused === entry"
-         (click)="focus(entry)">
-      @if (entry.expandable) {
-        <button mat-icon-button (click)="expand.emit(entry)">
-          <mat-icon>chevron_right</mat-icon>
-        </button>
-      }
+<div class="container">
+  @for (entry of entries;track entry.timestamp) {
+    <app-log-line [expandable]="entry.expandable"
+                  [expandData]="details[entry.id]"
+                  [class.focused]="focused === entry"
+                  (click)="focus(entry)"
+                  (expand)="toggle(entry)"
+                  [expandableTemplate]="expandableContent?.template">
+
       <span class="date">{{ entry.timestamp | date }}</span>
       <span class="time">{{ entry.timestamp | date:'shortTime' }}</span>
       <span class="level {{entry.level}}">[{{ entry.level }}]</span>
       <span>{{ entry.message }}</span>
-    </div>
-  </div>
-}
+    </app-log-line>
+  }
+</div>
+
+<ng-content/>

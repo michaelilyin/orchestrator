@@ -1,3 +1,5 @@
+import {CheckLogData} from "../../status/models/network-state";
+
 export enum Level {
   DEBUG = 'DEBUG',
   INFO = 'INFO',
@@ -11,4 +13,12 @@ export interface LogEntry {
   message: string
   level: Level
   expandable: boolean
+}
+
+export interface LogEntryDetails {
+  data: CheckLogData
+}
+
+export interface LogEntryDetailsMap {
+  [p: number]: LogEntryDetails
 }

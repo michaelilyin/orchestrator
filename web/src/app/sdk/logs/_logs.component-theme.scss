@@ -27,7 +27,8 @@ $green: #859900;
     color: $base01;
   }
 
-  .line.focused, .line:hover {
+  .line-internal.focused,
+  .line-internal:hover {
     background-color: $base2;
   }
 

@@ -3,7 +3,7 @@ import {
   CheckStatus,
   CheckLogRecordView,
   CheckLogView,
-  NetworkType
+  NetworkType, CheckLogData
 } from "../../models/network-state";
 import {
   BehaviorSubject,
@@ -12,19 +12,21 @@ import {
   distinctUntilChanged,
   EMPTY,
   map,
-  Observable,
-  shareReplay,
+  Observable, reduce, scan,
+  shareReplay, startWith, Subject,
   switchMap
 } from "rxjs";
 import {CheckStateService} from "../../service/check-state.service";
-import {AsyncPipe, DatePipe} from "@angular/common";
+import {AsyncPipe, DatePipe, JsonPipe} from "@angular/common";
 import {MatListModule} from "@angular/material/list";
 import {StatusIconComponent} from "../status-icon/status-icon.component";
 import {MatIconModule} from "@angular/material/icon";
 import {LogsComponent} from "../../../sdk/logs/logs.component";
-import {Level, LogEntry} from "../../../sdk/logs/logs.model";
+import {Level, LogEntry, LogEntryDetailsMap} from "../../../sdk/logs/logs.model";
 import {TypedChanges} from "../../../sdk/angular/changes";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {LineExpandableContentDirective} from "../../../sdk/logs/log-line/line-expandable-content.directive";
+import {LogLineComponent} from "../../../sdk/logs/log-line/log-line.component";
 
 function convertBucketToLogEntries(log: CheckLogView): LogEntry[] {
   return log.records.map(check => {
@@ -66,7 +68,10 @@ function extractLevel(check: CheckLogRecordView): Level {
     StatusIconComponent,
     MatIconModule,
     LogsComponent,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    JsonPipe,
+    LineExpandableContentDirective,
+    LogLineComponent
   ],
   templateUrl: './check-details.component.html',
   styleUrl: './check-details.component.scss',
@@ -74,6 +79,23 @@ function extractLevel(check: CheckLogRecordView): Level {
 })
 export class CheckDetailsComponent implements OnChanges {
   @Input() type?: NetworkType
+
+  private readonly detailsRequest$ = new Subject<number>()
+
+  readonly detailsMap$: Observable<LogEntryDetailsMap> = this.detailsRequest$.pipe(
+    switchMap(id => this.networkStateService.getCheckDetails(id).pipe(
+      map(res => [id, res] as [number, CheckLogData])
+    )),
+    scan((acc, [id, data]) => {
+      return {
+        ...acc,
+        [id]: {
+          data
+        }
+      }
+    }, {} as LogEntryDetailsMap),
+    startWith({}),
+  )
 
   private readonly type$ = new BehaviorSubject<NetworkType | null>(null)
 
@@ -87,7 +109,6 @@ export class CheckDetailsComponent implements OnChanges {
       if (type == null) {
         return EMPTY
       }
-      console.info("call", type, status)
       return this.networkStateService.getNetworkCheckLog(type, status)
     }),
     shareReplay(1)
@@ -108,6 +129,6 @@ export class CheckDetailsComponent implements OnChanges {
   }
 
   expand(entry: LogEntry) {
-    this.networkStateService.getCheckDetails(entry.id).subscribe()
+    this.detailsRequest$.next(entry.id)
   }
 }

@@ -31,11 +31,12 @@ export interface CheckLogRecordView {
 }
 
 export interface CheckLogData {
-
+  readonly '@c': string
 }
 
 
 export interface NetworkPingData extends CheckLogData {
+  readonly '@c': '.NetworkPingData'
   readonly host: string
   readonly duration: string
 }

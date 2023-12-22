@@ -1,0 +1,18 @@
+<div class="line-internal">
+  @if (expandable) {
+    <button mat-icon-button (click)="toggle()">
+      <mat-icon>{{ expandIcon }}</mat-icon>
+    </button>
+  }
+
+  <ng-content/>
+</div>
+
+@if (expanded) {
+  <div class="expanded">
+    <ng-container
+      [ngTemplateOutlet]="template"
+      [ngTemplateOutletContext]="context"
+    />
+  </div>
+}
