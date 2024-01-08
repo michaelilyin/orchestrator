@@ -74,7 +74,8 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: jars
-        path: build/**/libs/*.jar
+        path: |
+          metal-controller/build/libs/*.jar
         retention-days: 1
 
   prepare_env:
