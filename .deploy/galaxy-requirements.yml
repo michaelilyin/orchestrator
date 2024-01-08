@@ -1,0 +1,4 @@
+- src: https://github.com/don-rumata/ansible-role-install-liberica-java.git
+  scm: git
+  version: master
+  name: don_rumata.ansible_role_install_liberica_java

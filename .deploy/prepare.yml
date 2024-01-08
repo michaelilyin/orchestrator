@@ -1,7 +1,17 @@
-- name: Network Getting Started First Playbook
-  gather_facts: false
-  hosts: all
+- name: Prepare main node
+  gather_facts: true
+  hosts: main
+  strategy: free
+  serial:
+    - "100%"
+  roles:
+    - role: don_rumata.ansible_role_install_liberica_java
+      liberica_java_version: 17
+      liberica_java_bundletype: jdk
   tasks:
-    - name: Display the config
-      debug:
-        msg: "Hello!"
+    - name: Install Java package (Ubuntu/Debian)
+      apt:
+        name: "{{ java_apt_package }}"
+        state: present
+        update_cache: yes
+      when: ansible_os_family == 'Debian'
