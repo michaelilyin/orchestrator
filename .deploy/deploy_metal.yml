@@ -32,7 +32,7 @@
         mode: 0775
 
     - name: Metal Controller | Find exec file
-      find: paths="metal-controller/build/libs/" recurse=yes patterns="metal-controller-*.jar"
+      find: paths="artifacts/" recurse=yes patterns="metal-controller-*.jar"
       register: metal_controller_exec
 
     - name: Metal Controller | Copy jar
