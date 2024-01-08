@@ -31,16 +31,11 @@
         group: metal
         mode: 0775
 
-    - name: Metal Controller | Find exec file
-      find: paths="artifacts" recurse=yes patterns="metal-controller-*.jar"
-      register: metal_controller_exec
-
     - name: Metal Controller | Copy jar
       copy:
-        src: "{{ item.path }}"
+        src: artifacts/metal-controller-*.jar
         dest: /opt/metal-controller/metal-controller.jar
         owner: metal
-        with_items: "{{ metal_controller_exec.files }}"
 
     - name: Metal Controller | Create environment file
       template: src=metal-controller/metal-controller.env.j2 dest=/etc/systemd/default/metal-controller
