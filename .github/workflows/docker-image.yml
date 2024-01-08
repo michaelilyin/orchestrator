@@ -6,6 +6,7 @@ on:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -115,6 +116,19 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: jars
+
+      - name: Check
+        run: ls -al .
+
+      - name: Check Metal Controller
+        run: ls -al metal-controller
+
+      - name: Check Metal Controller Build
+        run: ls -al metal-controller/build
+
+      - name: Check Metal Controller Build Libs
+        run: ls -al metal-controller/build/libs
+
       - name: Deploy metal
         uses: dawidd6/action-ansible-playbook@v2
         with:
