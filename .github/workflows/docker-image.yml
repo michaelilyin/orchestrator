@@ -70,6 +70,13 @@ jobs:
         push: true
         tags: michaelilyin/orchestrator-web:latest
 
+    - name: Upload jars
+      uses: actions/upload-artifact@v3
+      with:
+        name: jars
+        path: build/**/libs/*.jar
+        retention-days: 1
+
   prepare_env:
     name: Prepare environment
     runs-on: ubuntu-latest
@@ -103,6 +110,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Download jars
+        uses: actions/download-artifact@v3
+        with:
+          name: jars
       - name: Deploy metal
         uses: dawidd6/action-ansible-playbook@v2
         with:
