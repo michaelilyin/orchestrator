@@ -1,0 +1,59 @@
+- name: Metal deploy
+  gather_facts: true
+  hosts: main
+  tasks:
+    - name: Create metal group
+      group:
+        name: metal
+        state: present
+
+    - name: Add metal user
+      user:
+        name: metal
+        state: present
+        groups: metal
+        append: yes
+
+    - name: Metal Controller | Create installation directory
+      ansible.builtin.file:
+        path: /opt/metal-controller
+        state: directory
+        owner: metal
+        group: metal
+        mode: 0775
+
+    - name: Metal Controller | Create working directory
+      ansible.builtin.file:
+        path: /var/lib/metal-controller
+        recurse: yes
+        state: directory
+        owner: metal
+        group: metal
+        mode: 0775
+
+    - name: Metal Controller | Find exec file
+      find: paths="../metal-controller/build/libs/" recurse=yes patterns="metal-controller-*.jar"
+      register: metal_controller_exec
+
+    - name: Metal Controller | Copy jar
+      copy:
+        src: { { item.path } }
+        dest: /opt/metal-controller/metal-controller.jar
+        owner: metal
+        with_items: "{{ metal_controller_exec.files }}"
+
+    - name: Metal Controller | Create environment file
+      template: src=../metal-controller/metal-controller.env.j2 dest=/etc/systemd/default/metal-controller
+
+    - name: Metal Controller | Create Unit file
+      template: src=../metal-controller/metal-controller.service.j2 dest=/lib/systemd/system/metal-controller.service mode=644
+      notify:
+        - reload systemctl
+
+    - name: Metal Controller | Start
+      service: name=metal-controller.service state=restarted enabled=yes
+
+
+  handlers:
+    - name: reload systemctl
+      command: systemctl daemon-reload

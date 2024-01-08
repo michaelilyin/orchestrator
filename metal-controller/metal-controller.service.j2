@@ -1,0 +1,17 @@
+[Unit]
+Description = Metal Device Controller
+After = network-online.target
+
+[Service]
+Type = simple
+EnvironmentFile = /etc/systemd/default/metal-controller
+User = metal
+Group = metal
+WorkingDirectory = /var/lib/metal-controller
+ExecStart = java -jar /opt/metal-controller/metal-controller.jar
+Restart = on-failure
+TimeoutSec = 15
+SuccessExitStatus=0 143
+
+[Install]
+WantedBy = multi-user.target

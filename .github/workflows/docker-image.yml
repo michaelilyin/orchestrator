@@ -5,77 +5,75 @@ on:
     branches: [ "main" ]
 
 jobs:
-#  build:
-#    runs-on: ubuntu-latest
-#    steps:
-#    - uses: actions/checkout@v3
-#
-#    - name: Set up Docker Buildx
-#      uses: docker/setup-buildx-action@v2
-#
-#    - name: Set up QEMU
-#      uses: docker/setup-qemu-action@v2
-#
-#    - name: Login to Docker Hub
-#      uses: docker/login-action@v2
-#      with:
-#        username: ${{ secrets.DOCKERHUB_USERNAME }}
-#        password: ${{ secrets.DOCKERHUB_TOKEN }}
-#
-#    - name: Set up JDK 17
-#      uses: actions/setup-java@v2
-#      with:
-#        java-version: '17'
-#        distribution: 'adopt'
-#        cache: gradle
-#
-#    - name: Use Node.js
-#      uses: actions/setup-node@v3
-#      with:
-#        node-version: '20.x'
-#
-#    - name: Grant execute permission for gradlew
-#      run: chmod +x gradlew
-#
-#    - name: Build with Gradle
-#      run: ./gradlew bootJar
-#
-#    - name: Npm install Web Client
-#      working-directory: web
-#      run: npm ci
-#
-#    - name: Build Web Client
-#      working-directory: web
-#      run: npm run build --if-present
-#
-#    - name: Docker Build and Push Status Check
-#      id: docker_build_status_check
-#      uses: docker/build-push-action@v4
-#      with:
-#        context: "./status-check"
-#        file: "./status-check/Dockerfile"
-#        platforms: |-
-#          linux/arm64/v8
-#        push: true
-#        tags: michaelilyin/status-check:latest
-#
-#    - name: Docker Build and Push Web Client
-#      id: docker_build_web_client
-#      uses: docker/build-push-action@v4
-#      with:
-#        context: "./web"
-#        file: "./web/Dockerfile"
-#        platforms: |-
-#          linux/arm64/v8
-#        push: true
-#        tags: michaelilyin/orchestrator-web:latest
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'adopt'
+        cache: gradle
+
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+
+    - name: Build with Gradle
+      run: ./gradlew bootJar
+
+    - name: Npm install Web Client
+      working-directory: web
+      run: npm ci
+
+    - name: Build Web Client
+      working-directory: web
+      run: npm run build --if-present
+
+    - name: Docker Build and Push Status Check
+      id: docker_build_status_check
+      uses: docker/build-push-action@v4
+      with:
+        context: "./status-check"
+        file: "./status-check/Dockerfile"
+        platforms: |-
+          linux/arm64/v8
+        push: true
+        tags: michaelilyin/status-check:latest
+
+    - name: Docker Build and Push Web Client
+      id: docker_build_web_client
+      uses: docker/build-push-action@v4
+      with:
+        context: "./web"
+        file: "./web/Dockerfile"
+        platforms: |-
+          linux/arm64/v8
+        push: true
+        tags: michaelilyin/orchestrator-web:latest
 
   prepare_env:
     name: Prepare environment
     runs-on: ubuntu-latest
     environment: production
-#    needs:
-#      - build
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -86,6 +84,29 @@ jobs:
         uses: dawidd6/action-ansible-playbook@v2
         with:
           playbook: prepare.yml
+          directory: .deploy
+          key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+          requirements: galaxy-requirements.yml
+          inventory: |
+            [main]
+            ${{ secrets.HOST }} ansible_ssh_user=${{ secrets.DOCKER_SSH_USER }} ansible_ssh_port=${{ secrets.DOCKER_SSH_PORT }}
+          options: |
+            --become
+
+  deploy_metal:
+    name: Deploy metal
+    runs-on: ubuntu-latest
+    environment: production
+    needs:
+      - build
+      - prepare_env
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy metal
+        uses: dawidd6/action-ansible-playbook@v2
+        with:
+          playbook: deploy_metal.yml
           directory: .deploy
           key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
           requirements: galaxy-requirements.yml
