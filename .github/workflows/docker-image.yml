@@ -92,8 +92,8 @@ jobs:
       - name: Prepare hosts
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: prepare.yml
-          directory: .deploy
+          playbook: .deploy/prepare.yml
+          directory: ./
           key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
           requirements: galaxy-requirements.yml
           inventory: |
@@ -121,8 +121,8 @@ jobs:
       - name: Deploy metal
         uses: dawidd6/action-ansible-playbook@v2
         with:
-          playbook: deploy_metal.yml
-          directory: .deploy
+          playbook: .deploy/deploy_metal.yml
+          directory: ./
           key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
           requirements: galaxy-requirements.yml
           inventory: |
