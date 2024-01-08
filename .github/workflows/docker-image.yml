@@ -92,8 +92,8 @@ jobs:
           inventory: |
             [main]
             ${{ secrets.HOST }} ansible_ssh_user=${{ secrets.DOCKER_SSH_USER }} ansible_ssh_port=${{ secrets.DOCKER_SSH_PORT }}
-#          options: |
-#            --verbose
+          options: |
+            --become
 
 #  deploy:
 #    runs-on: ubuntu-latest
