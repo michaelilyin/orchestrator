@@ -95,7 +95,7 @@ jobs:
           playbook: .deploy/prepare.yml
           directory: ./
           key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-          requirements: galaxy-requirements.yml
+          requirements: .deploy/galaxy-requirements.yml
           inventory: |
             [main]
             ${{ secrets.HOST }} ansible_ssh_user=${{ secrets.DOCKER_SSH_USER }} ansible_ssh_port=${{ secrets.DOCKER_SSH_PORT }}
@@ -124,7 +124,7 @@ jobs:
           playbook: .deploy/deploy_metal.yml
           directory: ./
           key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-          requirements: galaxy-requirements.yml
+          requirements: .deploy/galaxy-requirements.yml
           inventory: |
             [main]
             ${{ secrets.HOST }} ansible_ssh_user=${{ secrets.DOCKER_SSH_USER }} ansible_ssh_port=${{ secrets.DOCKER_SSH_PORT }}
