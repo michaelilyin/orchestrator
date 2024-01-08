@@ -33,15 +33,15 @@
 
     - name: Metal Controller | Copy jar
       copy:
-        src: {{ playbook_dir }}/../artifacts/metal-controller-*.jar
+        src: "{{ playbook_dir }}/../artifacts/metal-controller-*.jar"
         dest: /opt/metal-controller/metal-controller.jar
         owner: metal
 
     - name: Metal Controller | Create environment file
-      template: src={{ playbook_dir }}/../metal-controller/metal-controller.env.j2 dest=/etc/systemd/default/metal-controller
+      template: "src={{ playbook_dir }}/../metal-controller/metal-controller.env.j2 dest=/etc/systemd/default/metal-controller"
 
     - name: Metal Controller | Create Unit file
-      template: src={{ playbook_dir }}/../metal-controller/metal-controller.service.j2 dest=/lib/systemd/system/metal-controller.service mode=644
+      template: "src={{ playbook_dir }}/../metal-controller/metal-controller.service.j2 dest=/lib/systemd/system/metal-controller.service mode=644"
       notify:
         - reload systemctl
 
