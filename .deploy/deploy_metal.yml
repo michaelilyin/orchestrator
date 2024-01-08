@@ -37,7 +37,7 @@
 
     - name: Metal Controller | Copy jar
       copy:
-        src: { { item.path } }
+        src: "{{ item.path }}"
         dest: /opt/metal-controller/metal-controller.jar
         owner: metal
         with_items: "{{ metal_controller_exec.files }}"
