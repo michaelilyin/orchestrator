@@ -157,34 +157,35 @@ jobs:
           options: |
             --become
 
-#  deploy:
-#    runs-on: ubuntu-latest
-#    environment: production
-#    needs:
-#      - build_gradle
-#      - build_node
-#    steps:
-#    - uses: actions/checkout@v3
-#
-#    - name: Prepare docker-compose file
-#      uses: iamazeem/substitute-action@v1
-#      env:
-#        HOST: ${{ secrets.HOST }}
-#      with:
-#        input-files: |
-#          docker-compose.yaml
-#
-#    - name: Docker Deployment
-#      uses: wshihadeh/docker-deployment-action@v2
-#      with:
-#        remote_docker_host: ${{ secrets.DOCKER_SSH_USER_AND_HOST }}
-#        remote_docker_port: ${{ secrets.DOCKER_SSH_PORT }}
-#        ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
-#        ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
-#        deployment_mode: docker-compose
-#        stack_file_name: docker-compose.yaml
-#        copy_stack_file: 'true'
-#        deploy_path: '~/deploy'
-#        pull_images_first: true
-#        keep_files: 3
-#        args: up -d
+  deploy:
+    name: Deploy Compose
+    runs-on: ubuntu-latest
+    environment: production
+    needs:
+      - build_gradle
+      - build_node
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Prepare docker-compose file
+      uses: iamazeem/substitute-action@v1
+      env:
+        HOST: ${{ secrets.HOST }}
+      with:
+        input-files: |
+          docker-compose.yaml
+
+    - name: Docker Deployment
+      uses: wshihadeh/docker-deployment-action@v2
+      with:
+        remote_docker_host: ${{ secrets.DOCKER_SSH_USER_AND_HOST }}
+        remote_docker_port: ${{ secrets.DOCKER_SSH_PORT }}
+        ssh_private_key: ${{ secrets.DOCKER_SSH_PRIVATE_KEY }}
+        ssh_public_key: ${{ secrets.DOCKER_SSH_PUBLIC_KEY }}
+        deployment_mode: docker-compose
+        stack_file_name: docker-compose.yaml
+        copy_stack_file: 'true'
+        deploy_path: '~/deploy'
+        pull_images_first: true
+        keep_files: 3
+        args: up -d
