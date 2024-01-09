@@ -112,11 +112,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
       - name: Download jars
         uses: actions/download-artifact@v3
         with:
           name: jars
           path: artifacts
+
+      - name: Check root
+        run: ls -al .
+
+      - name: Check artifacts
+        run: ls -al artifacts
 
       - name: Deploy metal
         uses: dawidd6/action-ansible-playbook@v2
