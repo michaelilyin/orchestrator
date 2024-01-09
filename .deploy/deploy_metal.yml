@@ -33,8 +33,8 @@
 
     - name: Metal Controller | Copy jar
       copy:
-        src: "{{ playbook_dir }}/../artifacts/metal-controller-*.jar"
-        dest: /opt/metal-controller/metal-controller.jar
+        src: "{{ playbook_dir }}/../artifacts/"
+        dest: /opt/metal-controller/
         owner: metal
 
     - name: Metal Controller | Create environment file
