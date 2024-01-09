@@ -31,13 +31,17 @@
         group: metal
         mode: 0775
 
+    - name: Metal Controller | Rename jar
+      hosts: localhost
+      connection: local
+      gather_facts: false
+      shell: "cp {{ playbook_dir }}/../artifacts/metal-controller-*.jar {{ playbook_dir }}/../artifacts/metal-controller.jar"
+
     - name: Metal Controller | Copy jar
       copy:
-        src: "{{ item }}"
+        src: "{{ playbook_dir }}/../artifacts/metal-controller.jar"
         dest: /opt/metal-controller/metal-controller.jar
         owner: metal
-      with_fileglob:
-        - "{{ playbook_dir }}/../artifacts/metal-controller-*.jar"
 
     - name: Metal Controller | Create environment file
       template:
