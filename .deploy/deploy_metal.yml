@@ -32,9 +32,7 @@
         mode: 0775
 
     - name: Metal Controller | Rename jar
-      hosts: localhost
-      connection: local
-      gather_facts: false
+      delegate_to: localhost
       shell: "cp {{ playbook_dir }}/../artifacts/metal-controller-*.jar {{ playbook_dir }}/../artifacts/metal-controller.jar"
 
     - name: Metal Controller | Copy jar
