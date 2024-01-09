@@ -36,8 +36,8 @@
         src: "{{ item }}"
         dest: /opt/metal-controller/metal-controller.jar
         owner: metal
-        with_fileglob:
-          - "{{ playbook_dir }}/../artifacts/metal-controller-*.jar"
+      with_fileglob:
+        - "{{ playbook_dir }}/../artifacts/metal-controller-*.jar"
 
     - name: Metal Controller | Create environment file
       template:

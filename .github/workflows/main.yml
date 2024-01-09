@@ -56,7 +56,7 @@ jobs:
         retention-days: 1
 
   build_node:
-    name: Build Gradle
+    name: Build Node
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
