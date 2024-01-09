@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-gradle:
+  build_gradle:
     name: Build Gradle
     runs-on: ubuntu-latest
     steps:
