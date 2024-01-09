@@ -34,7 +34,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew bootJar
+      run: ./gradlew --build-cache bootJar
 
     - name: Docker Build and Push Status Check
       id: docker_build_status_check
