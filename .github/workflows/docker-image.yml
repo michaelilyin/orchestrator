@@ -120,10 +120,10 @@ jobs:
           path: artifacts
 
       - name: Check root
-        run: ls -al .
+        run: pwd && ls -alh .
 
       - name: Check artifacts
-        run: ls -al artifacts
+        run: pwd && ls -alh artifacts
 
       - name: Deploy metal
         uses: dawidd6/action-ansible-playbook@v2
